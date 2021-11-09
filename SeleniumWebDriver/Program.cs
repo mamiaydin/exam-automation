@@ -31,20 +31,45 @@ namespace ConsoleApplication1
             //enter the value in the google search text box  
             var hrefs = recentElements.Select(x => x.GetAttribute("href"));
             Thread.Sleep(2000);
+            
             var urls = hrefs.ToList();
 
+            var examModels = new List<ExamModel>();
+            
+            
             foreach (var url in urls)
             {
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(5000);
-                var description =
+                var title =
                     driver.FindElement(By.XPath("//*[@id=\"main-content\"]/article/div[1]/header/div/div[1]/h1"));
-                
-                Console.WriteLine(description.Text);
+                var description =
+                    driver.FindElement(By.XPath("//*[@id=\"main-content\"]/article/div[2]/div/div/div/div[1]/div/p[1]"));
+                var examModel = new ExamModel
+                {
+                    Title = title.Text,
+                    Description = description.Text
+                };
+                examModels.Add(examModel);
             }
-            
+
+            foreach (var model in examModels)
+            {
+                Console.Write(model.ToString());
+            }
             
             driver.Close();  
         }
+
+        public class ExamModel
+        {
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public List<Questions> Questions { get; set; }
+        }
+    }
+
+    public class Questions
+    {
     }
 }
