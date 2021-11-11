@@ -9,8 +9,10 @@ namespace ExamAutomation.Domain.Models
         
         public string Description { get; set; }
 
-        public List<Questions> Questions { get; set; } = new();
+        public virtual ICollection<Questions> Questions { get; set; }
+
     }
+    
 
     
 }

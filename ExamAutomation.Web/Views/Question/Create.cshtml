@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
+    var examId= ViewData["ExamId"];
+    
 }
 
 <h1>Create</h1>
@@ -10,18 +12,37 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" asp-controller="Question">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             
             <div class="form-group">
                 <label asp-for="Question" class="control-label"></label>
                 <input asp-for="Question" class="form-control" />
                 <span asp-validation-for="Question" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Answer" class="control-label"></label>
-                <input asp-for="Answer" class="form-control" />
-                <span asp-validation-for="Answer" class="text-danger"></span>
+                <label asp-for="AnsA" class="control-label"></label>
+                <input asp-for="AnsA" class="form-control" />
+                <span asp-validation-for="AnsA" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="AnsB" class="control-label"></label>
+                <input asp-for="AnsB" class="form-control" />
+                <span asp-validation-for="AnsB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnsC" class="control-label"></label>
+                <input asp-for="AnsC" class="form-control" />
+                <span asp-validation-for="AnsC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnsD" class="control-label"></label>
+                <input asp-for="AnsD" class="form-control" />
+                <span asp-validation-for="AnsD" class="text-danger"></span>
+            </div>
+            @Html.DropDownListFor(model => model.Answer, new SelectList(new string[] {"A", "B", "C","D"},new {style="width:100px;"}))
+        
+            <input type="hidden" asp-for="ExamsId" value="@examId" />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

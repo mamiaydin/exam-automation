@@ -1,24 +1,24 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ExamAutomation.Application.Interfaces;
-using ExamAutomation.Domain.Interfaces;
 using ExamAutomation.Domain.Models;
+using ExamAutomation.Infra.Data.Context;
 
 namespace ExamAutomation.Application.Services
 {
     public class QuestionService : IQuestionService
     {
-        private readonly IQuestionRepository _questionRepository;
+        private readonly AppDbContext _context;
 
-        public QuestionService(IQuestionRepository questionRepository)
+        public QuestionService(AppDbContext context)
         {
-            _questionRepository = questionRepository;
+            _context = context;
         }
 
         public List<Questions> GetRelatedQuestions(int examId)
         {
-            var questions = _questionRepository.GetAll().Where(x => x.ExamId == examId).ToList();
-            return questions;
+           var relatedQuestions = _context.Questions.Where(x=>x.ExamsId == examId).ToList();
+           return relatedQuestions;
         }
     }
 }

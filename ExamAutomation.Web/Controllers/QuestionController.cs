@@ -52,18 +52,31 @@ namespace ExamAutomation.Web.Controllers
         // POST: Question/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
+        
+     
+        [Route("/Question/Create/{examId}")]
+        public async Task<IActionResult> Create(int examId)
+        {
+            ViewData["ExamId"] = examId;
+            return View();
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Question,Answer")] Questions questions)
+        [Route("/Question/Create/{examId}")]
+        public async Task<IActionResult> Create([Bind("Id,Question,AnsA,AnsB,AnsC,AnsD,Answer,ExamsId")] Questions questions)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(questions);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("EditExam","Exam", new { id = questions.ExamsId });
             }
-            return View(questions);
+            return RedirectToAction("EditExam","Exam", new { id = questions.ExamsId });
         }
+        
+       
 
         // GET: Question/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -86,7 +99,7 @@ namespace ExamAutomation.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Question,Answer")] Questions questions)
+        public async Task<IActionResult> Edit(int id, Questions questions)
         {
             if (id != questions.Id)
             {

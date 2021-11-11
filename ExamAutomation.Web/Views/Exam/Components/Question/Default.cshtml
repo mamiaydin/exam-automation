@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ExamAutomation.Domain.Models.Questions>
+@{
+    var examId = ViewData["ExamId"];
+}
+<p>
+    <a asp-action="Create" asp-controller="Question" asp-route-id="@examId">Soru Oluştur</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnsA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnsB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnsC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnsD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Answer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnsA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnsB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnsC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnsD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Answer)
+            </td>
+            
+            <td>
+                <a asp-action="Edit" asp asp-controller="Question" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-controller="Question" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

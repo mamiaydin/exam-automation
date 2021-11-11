@@ -13,8 +13,8 @@ namespace ExamAutomation.Infra.Ioc
             services.AddScoped<IExamService, ExamService>();
             services.AddScoped<IExamRepository, ExamRepository>();
             
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
+            
         }
     }
 }

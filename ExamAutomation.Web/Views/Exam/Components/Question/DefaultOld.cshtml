@@ -1,0 +1,69 @@
+﻿@model List<ExamAutomation.Domain.Models.Questions>
+
+@using (Html.BeginForm("Edit","Question")) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        
+        @if (Model.Any())
+        {
+            var counter = 1;
+            foreach (var question in Model)
+            {
+                <h2>Soru - @counter</h2>
+                <div class="editor-field">
+                    @Html.HiddenFor(model => question.Id)
+                </div>
+                
+                <div class="editor-label">
+                    @Html.LabelFor(model => question.Question)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => question.Question)
+                    @Html.ValidationMessageFor(model => question.Question)
+                </div>
+                
+                <div class="editor-label">
+                    @Html.LabelFor(model => question.AnsA)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => question.AnsA)
+                    @Html.ValidationMessageFor(model => question.AnsA)
+                </div>
+                
+                <div class="editor-label">
+                    @Html.LabelFor(model => question.AnsB)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => question.AnsB)
+                    @Html.ValidationMessageFor(model => question.AnsB)
+                </div>
+                
+                <div class="editor-label">
+                    @Html.LabelFor(model => question.AnsC)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => question.AnsC)
+                    @Html.ValidationMessageFor(model => question.AnsC)
+                </div>
+                
+                <div class="editor-label">
+                    @Html.LabelFor(model => question.AnsD)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => question.AnsD)
+                    @Html.ValidationMessageFor(model => question.AnsD)
+                </div>
+                <div class="editor-field">
+                    @Html.HiddenFor(model => question.ExamsId)
+                </div>
+                <p>
+                    <input type="submit" value="Edit" />
+                </p>
+                counter++;
+            }
+        }
+       
+        
+    </fieldset>
+}

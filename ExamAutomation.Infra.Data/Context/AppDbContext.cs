@@ -14,5 +14,6 @@ namespace ExamAutomation.Infra.Data.Context
         public DbSet<Exams> Exams { get; set; }
         public DbSet<Questions> Questions { get; set; }
         
+   
     }
 }

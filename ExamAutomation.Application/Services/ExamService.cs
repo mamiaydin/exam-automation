@@ -6,6 +6,7 @@ using ExamAutomation.Application.Interfaces;
 using ExamAutomation.Application.ViewModels;
 using ExamAutomation.Domain.Interfaces;
 using ExamAutomation.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
@@ -14,32 +15,19 @@ namespace ExamAutomation.Application.Services
     public class ExamService : IExamService
     {
         private readonly IExamRepository _examRepository;
-        private readonly IQuestionService _questionService;
 
-        public ExamService(IExamRepository examRepository, IQuestionService questionService)
+        public ExamService(IExamRepository examRepository)
         {
             _examRepository = examRepository;
-            _questionService = questionService;
         }
 
-        public ExamListViewModel GetAllExams()
+        public List<Exams> GetAllExams()
         {
-            var exams=_examRepository.GetAll().ToList();
-            foreach (var exam in exams)
-            {
-                var questions = _questionService.GetRelatedQuestions(exam.Id);
-                exam.Questions = questions;
-            }
-            var examListViewModel = new ExamListViewModel
-            {
-                Exams = exams
-            };
-            
-            if (examListViewModel == null) throw new ArgumentNullException(nameof(examListViewModel));
-            return examListViewModel;
+            var exams = _examRepository.GetAll().ToList();
+            return exams;
         }
 
-        public ExamListViewModel Get(int examId)
+        public void Get(int examId)
         {
             var options = new ChromeOptions();
             options.AddArgument("--ignore-certificate-errors-spki-list");
@@ -83,10 +71,9 @@ namespace ExamAutomation.Application.Services
             }
             driver.Close();
 
-            return new ExamListViewModel
-            {
-                Exams = examLists,
-            };
+            
         }
+
+        
     }
 }

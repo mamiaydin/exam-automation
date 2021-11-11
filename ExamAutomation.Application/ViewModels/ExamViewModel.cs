@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ExamAutomation.Domain.Models;
 
 namespace ExamAutomation.Application.ViewModels
 {
-    public class ExamListViewModel
+    public class ExamViewModel
     {
-        public IEnumerable<Exams> Exams { get; set; }
-        public IEnumerable<Questions> Questions { get; set; }
+        public Exams Exam { get; set; }
+        public List<Questions> Questions { get; set; }
     }
 }

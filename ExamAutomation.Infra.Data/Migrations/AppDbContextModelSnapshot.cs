@@ -16,6 +16,21 @@ namespace ExamAutomation.Infra.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.11");
 
+            modelBuilder.Entity("ExamAutomation.Domain.Models.ExamQuestionsMapping", b =>
+                {
+                    b.Property<int>("ExamId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ExamId", "QuestionId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("ExamQuestionsMapping");
+                });
+
             modelBuilder.Entity("ExamAutomation.Domain.Models.Exams", b =>
                 {
                     b.Property<int>("Id")
@@ -39,11 +54,20 @@ namespace ExamAutomation.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Answer")
+                    b.Property<string>("AnsA")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ExamId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("AnsB")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AnsC")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AnsD")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("ExamsId")
                         .HasColumnType("INTEGER");
@@ -58,13 +82,30 @@ namespace ExamAutomation.Infra.Data.Migrations
                     b.ToTable("Questions");
                 });
 
+            modelBuilder.Entity("ExamAutomation.Domain.Models.ExamQuestionsMapping", b =>
+                {
+                    b.HasOne("ExamAutomation.Domain.Models.Exams", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExamAutomation.Domain.Models.Questions", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("ExamAutomation.Domain.Models.Questions", b =>
                 {
-                    b.HasOne("ExamAutomation.Domain.Models.Exams", "Exams")
+                    b.HasOne("ExamAutomation.Domain.Models.Exams", null)
                         .WithMany("Questions")
                         .HasForeignKey("ExamsId");
-
-                    b.Navigation("Exams");
                 });
 
             modelBuilder.Entity("ExamAutomation.Domain.Models.Exams", b =>

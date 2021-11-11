@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ExamAutomation.Application.Interfaces;
+using ExamAutomation.Application.ViewModels;
 using ExamAutomation.Domain.Models;
 using ExamAutomation.Infra.Data.Context;
 using Microsoft.AspNetCore.Authorization;
@@ -15,18 +17,37 @@ namespace ExamAutomation.Web.Controllers
     {
        private readonly AppDbContext _context;
        private readonly IExamService _examService;
+       private readonly IQuestionService _questionService;
 
-        public ExamController(AppDbContext context, IExamService examService)
+        public ExamController(AppDbContext context, IExamService examService, IQuestionService questionService)
         {
             _context = context;
             _examService = examService;
+            _questionService = questionService;
         }
 
         // GET: Exam
         public async Task<IActionResult> Index()
         {
-            var examListViewModel = _examService.GetAllExams();
-            return View(examListViewModel);
+            var exams = _examService.GetAllExams();
+            var examListViewModel = new List<ExamViewModel>();
+            
+            foreach (var exam in exams)
+            {
+                var questions = _questionService.GetRelatedQuestions(exam.Id);
+                var examViewModel = new ExamViewModel
+                {
+                    Exam = exam,
+                    Questions = questions
+                };
+                examListViewModel.Add(examViewModel);
+            }
+            var model = new ExamListViewModel
+            {
+                ExamViewModels = examListViewModel
+            };
+
+            return View(model);
         }
 
         // GET: exm/Details/5
@@ -53,9 +74,7 @@ namespace ExamAutomation.Web.Controllers
             return View();
         }
 
-        // POST: exm/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description")] Exams exams)
@@ -69,25 +88,41 @@ namespace ExamAutomation.Web.Controllers
             return View(exams);
         }
 
-        // GET: exm/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
+            
             var exams = await _context.Exams.FindAsync(id);
+            
             if (exams == null)
             {
                 return NotFound();
             }
             return View(exams);
         }
+        
+        public async Task<IActionResult> EditExam(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
+            var exams = await _context.Exams.FindAsync(id);
+            
+            if (exams == null)
+            {
+                return NotFound();
+            }
+            return View(exams);
+        }
+        
+        
 
-        // POST: exm/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] Exams exams)
@@ -119,8 +154,8 @@ namespace ExamAutomation.Web.Controllers
             }
             return View(exams);
         }
+        
 
-        // GET: exm/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,7 +173,6 @@ namespace ExamAutomation.Web.Controllers
             return View(exams);
         }
 
-        // POST: exm/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

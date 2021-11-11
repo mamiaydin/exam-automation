@@ -32,7 +32,20 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Exam" />
+      <_ContentIncludedByDefault Remove="Views\Question\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Question\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Question\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Question\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Question\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\exm\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\exm\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\exm\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\exm\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\exm\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\Exam\Components" />
     </ItemGroup>
 
 </Project>
