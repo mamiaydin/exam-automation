@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ExamAutomation.Infra.Data\ExamAutomation.Infra.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Selenium.WebDriver" Version="4.0.1" />
+      <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="95.0.4638.6900" />
+    </ItemGroup>
+
+</Project>

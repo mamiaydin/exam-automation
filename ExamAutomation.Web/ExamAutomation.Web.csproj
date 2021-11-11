@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>aspnet-ExamAutomation.Web-E51C5777-C2C1-470E-BB31-658DF8434304</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+        <None Update="ExamApp.db">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ExamAutomation.Infra.Data\ExamAutomation.Infra.Data.csproj" />
+      <ProjectReference Include="..\ExamAutomation.Infra.Ioc\ExamAutomation.Infra.Ioc.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\Exam" />
+    </ItemGroup>
+
+</Project>
