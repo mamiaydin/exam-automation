@@ -5,6 +5,7 @@ using ExamAutomation.Application.Interfaces;
 using ExamAutomation.Application.ViewModels;
 using ExamAutomation.Domain.Models;
 using ExamAutomation.Infra.Data.Context;
+using ExamAutomation.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,31 +51,33 @@ namespace ExamAutomation.Web.Controllers
             return View(model);
         }
 
-        // GET: exm/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+
+        // GET: exm/Create
+        public  IActionResult Create()
+        {
+             _examService.GetDataFromWired();
+             return RedirectToAction(nameof(Index));
+        }
+
+        
+        public async Task<IActionResult> SolveExam(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var exams = await _context.Exams
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (exams == null)
+            
+            var model = _examService.GetExam(id);
+            
+            if (model == null)
             {
                 return NotFound();
             }
-
-            return View(exams);
+            return View(model);
         }
-
-        // GET: exm/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description")] Exams exams)
@@ -104,6 +107,7 @@ namespace ExamAutomation.Web.Controllers
             return View(exams);
         }
         
+        
         public async Task<IActionResult> EditExam(int? id)
         {
             if (id == null)
@@ -120,41 +124,7 @@ namespace ExamAutomation.Web.Controllers
             return View(exams);
         }
         
-        
 
-      
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description")] Exams exams)
-        {
-            if (id != exams.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(exams);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExamsExists(exams.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(exams);
-        }
-        
 
         public async Task<IActionResult> Delete(int? id)
         {
@@ -162,7 +132,7 @@ namespace ExamAutomation.Web.Controllers
             {
                 return NotFound();
             }
-
+        
             var exams = await _context.Exams
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (exams == null)
@@ -177,15 +147,24 @@ namespace ExamAutomation.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            _questionService.DeleteRelatedQuestions(id);
+            
             var exams = await _context.Exams.FindAsync(id);
             _context.Exams.Remove(exams);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool ExamsExists(int id)
+        
+        
+        [HttpPost]
+        [Route("Exam/Result")]
+        public JsonResult AjaxPost(AxajPostModel formData)
         {
-            return _context.Exams.Any(e => e.Id == id);
+            var relatedQuestions =
+                _questionService.GetRelatedQuestions(formData.ExamId).OrderBy(x => x.Question).ToList();
+            var relatedQuestionsAnswers = relatedQuestions.Select(x => x.Answer).ToList();
+            
+            return Json(new { Ans1 = relatedQuestionsAnswers[0] , Ans2 = relatedQuestionsAnswers[1], Ans3 = relatedQuestionsAnswers[2], Ans4 = relatedQuestionsAnswers[3]});
         }
     }
 }

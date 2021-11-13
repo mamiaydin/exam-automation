@@ -27,7 +27,14 @@ namespace ExamAutomation.Application.Services
             return exams;
         }
 
-        public void Get(int examId)
+        public Exams GetExam(int? examId)
+        {
+            var exam = _examRepository.Get(examId);
+            return exam;
+        }
+
+        //get data from wired.com with selenium web driver
+        public void GetDataFromWired()
         {
             var options = new ChromeOptions();
             options.AddArgument("--ignore-certificate-errors-spki-list");
@@ -37,14 +44,14 @@ namespace ExamAutomation.Application.Services
             options.AddArgument("no-sandbox");
             options.AddArgument("--start-maximized");
             options.AddArgument("headless");
-            var driver = new ChromeDriver(options); 
+            var driver = new ChromeDriver("C:/Users/Muhammed/Documents/RiderProjects/SeleniumWorks/ExamAutomation.Application/bin/Debug/net5.0",options); 
             // navigate to URL  
             driver.Navigate().GoToUrl("https://www.wired.com"); 
             Thread.Sleep(5000);
-            // gets Most Recent items a tags 
+            // gets Most Recent items from wired
             var recentElements = driver.FindElements(By.XPath("//*[@id=\"app-root\"]/div/div[3]/div/div/div[2]/div[3]/div[1]/div[1]/div/ul/li/a"));  
             Thread.Sleep(2000);
-            //enter the value in the google search text box  
+            //get all hrefs from recent items
             var hrefs = recentElements.Select(x => x.GetAttribute("href"));
             Thread.Sleep(2000);
             
@@ -66,9 +73,13 @@ namespace ExamAutomation.Application.Services
                     Description = description.Text ?? "Description",
                     
                 };
+                
                 examLists.Add(examModel);
-
+               
             }
+            
+            _examRepository.AddExamList(examLists);
+            
             driver.Close();
 
             

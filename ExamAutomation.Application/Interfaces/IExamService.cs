@@ -6,5 +6,8 @@ namespace ExamAutomation.Application.Interfaces
     public interface IExamService
     {
         List<Exams> GetAllExams();
+        Exams GetExam(int? examId);
+
+        void GetDataFromWired();
     }
 }

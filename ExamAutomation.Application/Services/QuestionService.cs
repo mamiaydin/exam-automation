@@ -20,5 +20,16 @@ namespace ExamAutomation.Application.Services
            var relatedQuestions = _context.Questions.Where(x=>x.ExamsId == examId).ToList();
            return relatedQuestions;
         }
+
+        public async void DeleteRelatedQuestions(int examId)
+        {
+            var relatedQuestions = GetRelatedQuestions(examId);
+            foreach (var question in relatedQuestions)
+            {
+                _context.Questions.Remove(question);
+            }
+            
+            await _context.SaveChangesAsync();
+        }
     }
 }

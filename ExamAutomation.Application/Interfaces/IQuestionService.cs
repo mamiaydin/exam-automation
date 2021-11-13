@@ -6,5 +6,6 @@ namespace ExamAutomation.Application.Interfaces
     public interface IQuestionService
     {
         List<Questions> GetRelatedQuestions(int examId);
+        void DeleteRelatedQuestions(int examId);
     }
 }

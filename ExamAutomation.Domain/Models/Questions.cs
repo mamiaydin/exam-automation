@@ -6,19 +6,21 @@ namespace ExamAutomation.Domain.Models
     public class Questions
     {
         public int Id { get; set; }
-        [DisplayName("Soru")]
+        [DisplayName("Question")]
         public string Question { get; set; }
-        [DisplayName("A Şıkkı")]
+        [DisplayName("A Option")]
         public string AnsA { get; set; }
-        [DisplayName("B Şıkkı")]
+        [DisplayName("B Option")]
         public string AnsB { get; set; }
-        [DisplayName("C Şıkkı")]
+        [DisplayName("C Option")]
         public string AnsC { get; set; }
-        [DisplayName("D Şıkkı")]
+        [DisplayName("D Option")]
         public string AnsD { get; set; }
-        [DisplayName("Doğru Cevap")]
+        [DisplayName("True Answer")]
         public string Answer { get; set; }
 
         public int ExamsId { get; set; }
+
+        public Exams Exams { get; set; }
     }
 }

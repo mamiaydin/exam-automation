@@ -3,7 +3,11 @@
     var examId = ViewData["ExamId"];
 }
 <p>
-    <a asp-action="Create" asp-controller="Question" asp-route-id="@examId">Soru Oluştur</a>
+    @if (Model.Count() < 4)
+    {
+        <a asp-action="Create" asp-controller="Question" asp-route-id="@examId">Create Question</a>
+    }
+    
 </p>
 <table class="table">
     <thead>

@@ -1,0 +1,92 @@
+﻿@using ExamAutomation.Application.Interfaces
+@model ExamAutomation.Domain.Models.Exams
+@inject IQuestionService _questionService
+
+@{
+    var relatedQuestions= _questionService.GetRelatedQuestions(Model.Id).OrderBy(x=>x.Question).ToList();
+    var questionNumber = 1;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/style.css">
+    <script type="text/javascript" src="~/js/jquery-3.6.0.min.js"> </script>
+    <title>Quiz</title>
+</head>
+
+<body>
+
+    <section>
+
+        <h1>@Model.Title</h1>
+        <p>@Model.Description</p>
+
+        
+        <div class="wrapper">
+
+            @foreach (var question in relatedQuestions)
+            {
+                <div id="@question.Id" class="quiz questionNumber_@questionNumber">
+                    <h2 class="quiz-question">1) @question.Question</h2>
+                    <ul>
+                        <li id="A" class="quiz-answer">A) @question.AnsA</li>
+                        <li id="B" class="quiz-answer">B) @question.AnsB</li>
+                        <li id="C" class="quiz-answer">C) @question.AnsC</li>
+                        <li id="D" class="quiz-answer">D) @question.AnsD</li>
+                    </ul>
+                </div>
+                questionNumber++;
+            }
+
+        </div>
+        <div class="btn-wrapper">
+            <button onclick="AjaxFormSubmit()"> SINAVI TAMAMLA</button>
+        </div>
+    </section>
+    <script type="text/javascript">
+            function AjaxFormSubmit() {
+                //Set the URL.
+                const url = "/Exam/Result";
+               
+                const Answer1= $('.questionNumber_1').children('ul').children('.myClass').attr('id');
+                const Answer2= $('.questionNumber_2').children('ul').children('.myClass').attr('id');
+                const Answer3= $('.questionNumber_3').children('ul').children('.myClass').attr('id');
+                const Answer4= $('.questionNumber_4').children('ul').children('.myClass').attr('id');
+                
+                const formData = new FormData();
+                formData.append("ExamId", @Model.Id);
+                formData.append("Answer1", Answer1);
+                formData.append("Answer2", Answer2);
+                formData.append("Answer3", Answer3);
+                formData.append("Answer4", Answer4);
+     
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                }).done(function (response) {
+                    const q1ResponseAnswer = response.ans1;
+                    const q2ResponseAnswer = response.ans2;
+                    const q3ResponseAnswer = response.ans3;
+                    const q4ResponseAnswer = response.ans4;
+                    debugger;
+                        $('.myClass').addClass('false-answer');
+                        $('.questionNumber_1').children('ul').children('#'+q1ResponseAnswer).addClass('true-answer');
+                        $('.questionNumber_2').children('ul').children('#'+q2ResponseAnswer).addClass('true-answer');
+                        $('.questionNumber_3').children('ul').children('#'+q3ResponseAnswer).addClass('true-answer');
+                        $('.questionNumber_4').children('ul').children('#'+q4ResponseAnswer).addClass('true-answer');
+                    
+                });
+            }
+        </script>
+
+    <script src="~/js/script.js"></script>
+</body>
+
+</html>

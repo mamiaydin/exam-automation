@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,10 +23,20 @@ namespace ExamAutomation.Infra.Data.Repositories
             return _appDbContext.Exams;
         }
 
-        public Exams Get(int id)
+        public Exams Get(int? id)
         {
             return _appDbContext.Exams
                 .First(m => m.Id == id);
         }
+
+        public async void AddExamList(List<Exams> exams)
+        {
+            foreach (var exam in exams)
+            {
+                _appDbContext.Add(exam);
+            }
+            await _appDbContext.SaveChangesAsync();
+        }
+        
     }
 }

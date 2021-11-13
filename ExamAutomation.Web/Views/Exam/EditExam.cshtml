@@ -1,28 +1,14 @@
 @model ExamAutomation.Domain.Models.Exams
 
-<h2>Create Exam</h2>
+<h2>Exam</h2>
 
 @{
-    @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Exam</legend>
 
-        <div class="editor-label">
-                    @Html.LabelFor(model => model.Title)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.Title ,new {style = "width:60%"})
-                    @Html.ValidationMessageFor(model => model.Title)
-                </div>
-        
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => model.Description ,new {style = "width:80%"})
-            @Html.ValidationMessageFor(model => model.Description)
-        </div>
+        <h1>@Model.Title</h1>
+
+        <p>@Model.Description</p>
 
       
     </fieldset>

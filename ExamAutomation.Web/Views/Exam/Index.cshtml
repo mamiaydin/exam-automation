@@ -5,28 +5,31 @@
     var model = Model.ExamViewModels;
 }
 
-<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Get Data From Wired</a>
+    <br>
+    It may take a while please wait ...
+    <br>
+    Datas will be list here..
 </p>
 <table class="table">
     <thead>
     <tr>
         <th>
-            Sınav Başlık
+            Exam Title
         </th>
         <th>
-            Soru 1
+            Question 1
         </th>
         <th>
-            Soru 2
+            Question 2
         </th>
         <th>
-            Soru 3
+            Question 3
         </th>
         <th>
-           Soru 4
+           Question 4
         </th>
         
     </tr>
@@ -44,9 +47,10 @@
                         @Html.DisplayFor(modelItem => question.Question)
                     </td>
                 }
-               
+                
                 <td>
-                    <a asp-action="EditExam" asp-route-id="@item.Exam.Id">Edit</a> |
+                    <a asp-action="SolveExam" asp-route-id="@item.Exam.Id">Solve Exam</a> |
+                    <a asp-action="EditExam" asp-route-id="@item.Exam.Id">Add Questions</a> |
                     <a asp-action="Delete" asp-route-id="@item.Exam.Id">Delete</a>
                 </td>
             </tr>

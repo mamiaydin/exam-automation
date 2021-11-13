@@ -13,7 +13,16 @@ namespace ExamAutomation.Infra.Data.Context
 
         public DbSet<Exams> Exams { get; set; }
         public DbSet<Questions> Questions { get; set; }
-        
+
+
    
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Exams>()
+                .HasMany(a=>a.Questions)
+                .WithOne(x=>x.Exams)
+                .OnDelete(DeleteBehavior.NoAction);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
