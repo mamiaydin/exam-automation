@@ -67,7 +67,7 @@ h2 {
 .myClass {
     background-color: rgb(54, 54, 54);
     color: white;
-    font-size: 24px;
+    font-weight: bold;
 }
 
 /*onclick change class*/
@@ -78,7 +78,7 @@ h2 {
 .true-answer {
     background-color: rgba(107, 165, 14, 0.85);
     color: white !important;
-    font-size: 34px;
+    font-weight: bolder;
 }
 
 .btn-wrapper{

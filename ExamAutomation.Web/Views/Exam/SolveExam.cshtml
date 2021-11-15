@@ -31,7 +31,7 @@
             @foreach (var question in relatedQuestions)
             {
                 <div id="@question.Id" class="quiz questionNumber_@questionNumber">
-                    <h2 class="quiz-question">1) @question.Question</h2>
+                    <h2 class="quiz-question">@questionNumber) @question.Question</h2>
                     <ul>
                         <li id="A" class="quiz-answer">A) @question.AnsA</li>
                         <li id="B" class="quiz-answer">B) @question.AnsB</li>

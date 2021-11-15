@@ -44,7 +44,7 @@ namespace ExamAutomation.Application.Services
             options.AddArgument("no-sandbox");
             options.AddArgument("--start-maximized");
             options.AddArgument("headless");
-            var driver = new ChromeDriver("C:/Users/Muhammed/Documents/RiderProjects/SeleniumWorks/ExamAutomation.Application/bin/Debug/net5.0",options); 
+            var driver = new ChromeDriver("/Users/mac/Desktop/src/ExamAutomation/ExamAutomation.Application/bin/Debug/net5.0",options); 
             // navigate to URL  
             driver.Navigate().GoToUrl("https://www.wired.com"); 
             Thread.Sleep(5000);
@@ -63,19 +63,32 @@ namespace ExamAutomation.Application.Services
             {
                 driver.Navigate().GoToUrl(url);
                 Thread.Sleep(5000);
-                var title =
-                    driver.FindElement(By.XPath("//*[@id=\"main-content\"]/article/div[1]/header/div/div[1]/h1"));
-                var description =
-                    driver.FindElement(By.XPath("//*[@id=\"main-content\"]/article/div[2]/div/div/div/div[1]/div/p[1]"));
-                var examModel = new Exams
+                try
                 {
-                    Title = title.Text ?? "Title",
-                    Description = description.Text ?? "Description",
+                    var title =
+                        driver.FindElement(By.XPath("//*[@id=\"main-content\"]/article/div[1]/header/div/div[1]/h1"));
+                    var description =
+                        driver.FindElement(By.XPath("//*[@id=\"main-content\"]/article/div[2]/div/div/div/div[1]/div/p[1]"));
+                    var examModel = new Exams
+                    {
+                        Title = title.Text,
+                        Description = description.Text,
                     
-                };
+                    };
                 
-                examLists.Add(examModel);
-               
+                    examLists.Add(examModel);
+                }
+                catch (Exception e)
+                {
+                    var examModel = new Exams
+                    {
+                        Title = "Couldn't catch the data from " + url,
+                        Description = "Couldn't catch the data from " + url,
+                    
+                    };
+                    examLists.Add(examModel);
+                }
+                
             }
             
             _examRepository.AddExamList(examLists);
